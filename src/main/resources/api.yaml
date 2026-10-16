@@ -1,0 +1,128 @@
+openapi: 3.0.3
+info:
+  title: API de Customer
+  version: 1.0
+  description: Documentación de la API de customer
+servers:
+  - url: http://localhost:8085
+paths:
+  /api/customers:
+    get:
+      tags:
+        - Customer
+      summary: Lista todos los Customer
+      description: Muestra todos los Customer del sistema
+      operationId: viewCustomers
+      responses:
+        '200':
+          description: Lista de Customer
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Customer'
+    post:
+      tags:
+        - Customer
+      summary: Crea un nuevo Customer
+      description: Crea un nuevo Customer en el sistema
+      operationId: createCustomer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerRequest'
+      responses:
+        '201':
+          description: Customer creado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+  /api/customers/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: Identificador del Customer
+        schema:
+          type: string
+    get:
+      tags:
+        - Customer
+      summary: Busca un Customer por ID
+      description: Busca un Customer del sistema por ID
+      operationId: viewCustomer
+      responses:
+        '200':
+          description: Customer encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        '404':
+          description: Usuario no encontrado
+    put:
+      tags:
+        - Customer
+      summary: Actualiza un Customer por ID
+      description: Actualiza un Customer del sistema por ID
+      operationId: updateCustomer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerRequest'
+      responses:
+        '200':
+          description: Customer actualizado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        '404':
+          description: Usuario no encontrado
+    delete:
+      tags:
+        - Customer
+      summary: Elimina un Customer por ID
+      description: Elimina un Customer del sistema
+      operationId: deleteCustomer
+      responses:
+        '200':
+          description: Customer eliminado exitosamente
+        '404':
+          description: Customer no encontrado
+components:
+  schemas:
+    CustomerRequest:
+      type: object
+      description: Datos requeridos para crear o actualizar un Customer
+      properties:
+        nombre:
+          type: string
+        apellido:
+          type: string
+        correo:
+          type: string
+          format: email
+        dni:
+          type: string
+    Customer:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Identificador del Customer
+        nombre:
+          type: string
+        apellido:
+          type: string
+        correo:
+          type: string
+          format: email
+        dni:
+          type: string
