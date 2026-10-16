@@ -37,6 +37,7 @@ public class CustomerController {
 
   @Operation(summary = "Crea un nuevo Customer", description = "Crea un nuevo Customer en el sistema")
   @ApiResponse(responseCode = "201", description = "Customer creado exitosamente")
+  @ResponseStatus(code = org.springframework.http.HttpStatus.CREATED)
   @PostMapping("/customers")
   public Mono<Customer> createCustomer(@RequestHeader Map<String, String> headers, @RequestBody CustomerRequest customer) {
     return customerService.createCustomer(customer);
